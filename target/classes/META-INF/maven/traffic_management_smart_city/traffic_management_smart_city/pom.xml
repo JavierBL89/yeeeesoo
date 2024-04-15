@@ -3,4 +3,88 @@
   <groupId>traffic_management_smart_city</groupId>
   <artifactId>traffic_management_smart_city</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <properties>
+<java.version>1.8</java.version>
+<grpc.version>1.41.0</grpc.version>
+<protobuf.version>3.18.1</protobuf.version>
+</properties>
+<dependencies>
+	
+<!--  gRPC Java library  -->
+<dependency>
+<groupId>io.grpc</groupId>
+<artifactId>grpc-netty</artifactId>
+<version>1.41.0</version>
+</dependency>
+<!--  Protocol Buffers Java library  -->
+<dependency>
+<groupId>com.google.protobuf</groupId>
+<artifactId>protobuf-java</artifactId>
+<version>3.18.1</version>
+</dependency>
+<dependency>
+<groupId>io.grpc</groupId>
+<artifactId>grpc-stub</artifactId>
+<version>1.41.0</version>
+</dependency>
+<dependency>
+<groupId>io.grpc</groupId>
+<artifactId>grpc-protobuf</artifactId>
+<version>${grpc.version}</version>
+</dependency>
+<dependency>
+    <groupId>javax.annotation</groupId>
+    <artifactId>javax.annotation-api</artifactId>
+    <version>1.3.2</version>
+</dependency>
+</dependencies>
+<build>
+<sourceDirectory>src</sourceDirectory>
+<plugins>
+<!--  OS Maven Plugin to detect the OS  -->
+<plugin>
+<groupId>kr.motd.maven</groupId>
+<artifactId>os-maven-plugin</artifactId>
+<version>1.7.0</version>
+<executions>
+<execution>
+<phase>initialize</phase>
+<goals>
+<goal>detect</goal>
+</goals>
+</execution>
+</executions>
+</plugin>
+<!--  Maven Compiler Plugin  -->
+<plugin>
+<artifactId>maven-compiler-plugin</artifactId>
+<version>3.8.1</version>
+<configuration>
+<source>${java.version}</source>
+<target>${java.version}</target>
+</configuration>
+</plugin>
+<!--  Protobuf and gRPC Plugin  -->
+<plugin>
+<groupId>org.xolstice.maven.plugins</groupId>
+<artifactId>protobuf-maven-plugin</artifactId>
+<version>0.6.1</version>
+<configuration>
+<protocArtifact>com.google.protobuf:protoc:${protobuf.version}:exe:${os.detected.classifier}</protocArtifact>
+<pluginId>grpc-java</pluginId>
+<pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}</pluginArtifact>
+<protoSourceRoot>src/main/proto</protoSourceRoot>
+<outputDirectory>${project.build.directory}/generated-sources/protobuf/java</outputDirectory>
+</configuration>
+<executions>
+<execution>
+<goals>
+<goal>compile</goal>
+<goal>compile-custom</goal>
+</goals>
+</execution>
+</executions>
+</plugin>
+</plugins>
+</build>
 </project>
